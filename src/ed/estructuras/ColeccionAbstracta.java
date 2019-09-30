@@ -153,7 +153,7 @@ public abstract class ColeccionAbstracta<E> implements Collection<E> {
                 continue;
             }
 
-            if(!elemento.equals(elemento)) return false;
+            if(!elemento.equals(elemento2)) return false;
         }
         return true;
     }
@@ -163,11 +163,11 @@ public abstract class ColeccionAbstracta<E> implements Collection<E> {
      * @return identificador el código con el cual el objeto se
      * identifica.
      */
-    @Override
     /* El hashcode de nuestra colección es suma del hash de cada uno
      * de los objetos que contiene */
     /* El hash no debe utilizarse para verificar igualdad, es verdad
      * que si son iguales tienen el mismo hash, pero no al revés */
+    @Override
     public int hashCode() {
         int identificador = 0;
         for(E elemento: this) {
@@ -219,6 +219,7 @@ public abstract class ColeccionAbstracta<E> implements Collection<E> {
         }
         return false;
     }
+
     /**
      * Elimina todas las ocurrencias de la colección, que estén
      * contenidas en la colección c.
@@ -255,7 +256,7 @@ public abstract class ColeccionAbstracta<E> implements Collection<E> {
     /**
      * Al finalizar este método, la colección sólo conserva los
      * elementos que tiene en común con la colección c.
-     * @param c coleccion tal que será referencia para decidir qué
+     * @param c colección tal que será referencia para decidir qué
      * elementos permanecen en la colección.
      * @return <tt>true</tt> si se eliminó al menos un elemento de la
      * colección que manda a llamar al método, <tt>false</tt> en otro
@@ -266,10 +267,10 @@ public abstract class ColeccionAbstracta<E> implements Collection<E> {
      * es incompatible con el de la colección c.
      * @throws NullPointerException si la colección c es null.
      */
-    @Override
     /* Interseccion de conjuntos */
     /* No cambiar con estructura de for-each porque es inseguro usar
      * .remove() adentro*/
+    @Override
     public boolean retainAll(Collection<?> c) {
         if(c == null) {
             throw new NullPointerException();
@@ -306,11 +307,11 @@ public abstract class ColeccionAbstracta<E> implements Collection<E> {
      * Entrega un arreglo que contiene todos los elementos que existen
      * actualmente en la colección y en el mismo orden en que están
      * contenidos en ésta.
-     * @return arreglo con los elementos actuales de la
-     * colección.
+     * @return arreglo con los elementos actuales de la colección.
      */
+    /* El acomodo de los elementos en este arreglo no necesariamente
+     * cumplen con un criterio de orden */
     @Override
-    /* El acomodo de los elementos en este arreglo no necesariamente cumplen con un criterio de orden */
     public Object[] toArray() {
         Object[] representacion = new Object[this.size()];
         int contador = 0;
@@ -326,29 +327,29 @@ public abstract class ColeccionAbstracta<E> implements Collection<E> {
     /**
      * Entrega un arreglo de tipo T que contiene todos los elementos
      * que existen actualmente en la colección y en el mismo orden en
-     * que están contenidos en la coleccion.
-     * @param a arreglo el cual indica el tipo y además en el cual(es es de tamaño adecuado) se guardan los elementos de la colección
+     * que están contenidos en la colección.
+     * @param a arreglo el cual indica el tipo y además en el cual(es
+     * es de tamaño adecuado) se guardan los elementos de la colección
      * @return arreglo con los elementos actuales de la
      * colección
-     * @throws ArrayStoreException si el tipo del arreglo T[] no es un super
+     * @throws ArrayStoreException si el tipo del arreglo T no es un super
      * tipo de E (los elementos almacenados en esta colección).
      * @throws NullPointerException si el arreglo especificado es null.
      */
-    @Override
     /* Los elementos en el arreglo no necesariamente cumplen con un
      * criterio de orden */
+    @Override
+    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
         if(a == null) {
             throw new NullPointerException("El arreglo no puede ser nulo");
         }
 
         int nvoTam = a.length >= this.size() ? a.length : this.size();
-
         T[] contenedor = Arrays.copyOf(a, nvoTam);
         int contador = 0;
         for(E elemento: this) {
-            T aux = (T) elemento;
-            contenedor[contador] = aux;
+            contenedor[contador] = (T)elemento;
             contador++;
         }
 
@@ -378,7 +379,7 @@ public abstract class ColeccionAbstracta<E> implements Collection<E> {
      * no permite la operación
      * @throws ClassCastException si el tipo de e no es compatible
      * con E.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException 
      * @throws IllegalStateException si el elemento no puede ser agregado
      * debido a alguna restricción de la implementación del
      * método en la estructura.
